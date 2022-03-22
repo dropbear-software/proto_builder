@@ -1,6 +1,4 @@
-// TODO: Put public facing types in this file.
+import 'package:build/build.dart';
+import './copy_builder.dart';
 
-/// Checks if you are awesome. Spoiler: you are.
-class Awesome {
-  bool get isAwesome => true;
-}
+Builder copyBuilder(BuilderOptions options) => CopyBuilder();
