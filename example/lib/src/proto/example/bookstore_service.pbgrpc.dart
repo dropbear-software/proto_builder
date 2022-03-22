@@ -1,6 +1,6 @@
 ///
 //  Generated code. Do not modify.
-//  source: protos/example/bookstore_service.proto
+//  source: example/bookstore_service.proto
 //
 // @dart = 2.12
 // ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
@@ -10,48 +10,48 @@ import 'dart:async' as $async;
 import 'dart:core' as $core;
 
 import 'package:grpc/service_api.dart' as $grpc;
-import '../../google/protobuf/empty.pb.dart' as $0;
+import '../google/protobuf/empty.pb.dart' as $0;
 import 'bookstore_service.pb.dart' as $1;
 export 'bookstore_service.pb.dart';
 
 class BookstoreClient extends $grpc.Client {
   static final _$listShelves =
       $grpc.ClientMethod<$0.Empty, $1.ListShelvesResponse>(
-          '/endpoints.examples.bookstore.Bookstore/ListShelves',
+          '/example.bookstore.Bookstore/ListShelves',
           ($0.Empty value) => value.writeToBuffer(),
           ($core.List<$core.int> value) =>
               $1.ListShelvesResponse.fromBuffer(value));
   static final _$createShelf =
       $grpc.ClientMethod<$1.CreateShelfRequest, $1.Shelf>(
-          '/endpoints.examples.bookstore.Bookstore/CreateShelf',
+          '/example.bookstore.Bookstore/CreateShelf',
           ($1.CreateShelfRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) => $1.Shelf.fromBuffer(value));
   static final _$getShelf = $grpc.ClientMethod<$1.GetShelfRequest, $1.Shelf>(
-      '/endpoints.examples.bookstore.Bookstore/GetShelf',
+      '/example.bookstore.Bookstore/GetShelf',
       ($1.GetShelfRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $1.Shelf.fromBuffer(value));
   static final _$deleteShelf =
       $grpc.ClientMethod<$1.DeleteShelfRequest, $0.Empty>(
-          '/endpoints.examples.bookstore.Bookstore/DeleteShelf',
+          '/example.bookstore.Bookstore/DeleteShelf',
           ($1.DeleteShelfRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) => $0.Empty.fromBuffer(value));
   static final _$listBooks =
       $grpc.ClientMethod<$1.ListBooksRequest, $1.ListBooksResponse>(
-          '/endpoints.examples.bookstore.Bookstore/ListBooks',
+          '/example.bookstore.Bookstore/ListBooks',
           ($1.ListBooksRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) =>
               $1.ListBooksResponse.fromBuffer(value));
   static final _$createBook = $grpc.ClientMethod<$1.CreateBookRequest, $1.Book>(
-      '/endpoints.examples.bookstore.Bookstore/CreateBook',
+      '/example.bookstore.Bookstore/CreateBook',
       ($1.CreateBookRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $1.Book.fromBuffer(value));
   static final _$getBook = $grpc.ClientMethod<$1.GetBookRequest, $1.Book>(
-      '/endpoints.examples.bookstore.Bookstore/GetBook',
+      '/example.bookstore.Bookstore/GetBook',
       ($1.GetBookRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $1.Book.fromBuffer(value));
   static final _$deleteBook =
       $grpc.ClientMethod<$1.DeleteBookRequest, $0.Empty>(
-          '/endpoints.examples.bookstore.Bookstore/DeleteBook',
+          '/example.bookstore.Bookstore/DeleteBook',
           ($1.DeleteBookRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) => $0.Empty.fromBuffer(value));
 
@@ -103,7 +103,7 @@ class BookstoreClient extends $grpc.Client {
 }
 
 abstract class BookstoreServiceBase extends $grpc.Service {
-  $core.String get $name => 'endpoints.examples.bookstore.Bookstore';
+  $core.String get $name => 'example.bookstore.Bookstore';
 
   BookstoreServiceBase() {
     $addMethod($grpc.ServiceMethod<$0.Empty, $1.ListShelvesResponse>(
