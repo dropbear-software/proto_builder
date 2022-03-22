@@ -27,15 +27,15 @@ class ProtoCompilerBuilder extends Builder {
 
     final tempDirAsString = scratchSpace.tempDir.path;
 
+    // Fix the paths to so the compiler works correctly
+    final updatedPath = buildStep.inputId.path.replaceFirst('protos/', '');
+
     // Now we can use the proto compiler
-    await Process.run(
-        'protoc',
-        [
-          '-I=$tempDirAsString',
-          '--dart_out=grpc:$tempDirAsString',
-          '$tempDirAsString/${buildStep.inputId.path}'
-        ],
-        workingDirectory: tempDirAsString);
+    await Process.run('protoc', [
+      '--dart_out=grpc:$tempDirAsString/protos',
+      '-I=$tempDirAsString/protos',
+      updatedPath
+    ]);
 
     // Create a list of the possible file outputs we could have
     const fileTypes = [
