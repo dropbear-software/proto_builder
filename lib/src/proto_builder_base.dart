@@ -1,4 +1,4 @@
 import 'package:build/build.dart';
-import './copy_builder.dart';
+import 'package:proto_builder/src/proto_compiler_builder.dart';
 
-Builder copyBuilder(BuilderOptions options) => CopyBuilder();
+Builder protoBuilder(BuilderOptions options) => ProtoCompilerBuilder();
