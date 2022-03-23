@@ -43,9 +43,12 @@ class BookstoreInMemoryRepository implements BookstoreRepository {
   }
 
   @override
-  Shelf getShelf(int shelfId) {
-    // TODO: implement getShelf
-    throw UnimplementedError();
+  Future<Shelf> getShelf(int shelfId) async {
+    if (_shelves.containsKey(shelfId)) {
+      return Future.value(_shelves[shelfId]!._shelf);
+    }
+
+    throw ArgumentError.value(shelfId, 'shelfId', 'No shelf with that ID');
   }
 
   @override
@@ -55,20 +58,10 @@ class BookstoreInMemoryRepository implements BookstoreRepository {
   }
 }
 
-// class BookstoreData {
-//   late final HashMap<int, _ShelfInfo> _shelves;
-//   late num _lastShelfId;
-
-//   BookstoreData() {
-//     this._shelves = HashMap<int, _ShelfInfo>();
-//     this._lastShelfId = 0;
-//   }
-// }
-
 class _ShelfInfo {
   late final Shelf _shelf;
   late final Map<int, Book> _books;
-  late num _lastBookId;
+  late int _lastBookId;
 
   _ShelfInfo(Shelf shelf) {
     this._shelf = shelf;

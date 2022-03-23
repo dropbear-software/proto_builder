@@ -6,7 +6,7 @@ abstract class BookstoreRepository {
 
   Iterable<Shelf> listShelves();
 
-  Shelf getShelf(int shelfId);
+  Future<Shelf> getShelf(int shelfId);
 
   void deleteShelf(int shelfId);
 }

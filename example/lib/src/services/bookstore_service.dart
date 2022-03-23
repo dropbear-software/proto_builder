@@ -47,8 +47,13 @@ class BookstoreService extends BookstoreServiceBase {
 
   @override
   Future<Shelf> getShelf(ServiceCall call, GetShelfRequest request) {
-    // TODO: implement getShelf
-    throw UnimplementedError();
+    final shelfId = request.shelf.toInt();
+    print('Shelf ID = $shelfId');
+    try {
+      return _repository.getShelf(shelfId);
+    } catch (e) {
+      throw GrpcError.notFound();
+    }
   }
 
   @override

@@ -1,4 +1,5 @@
 import 'package:example/api.dart';
+import 'package:fixnum/fixnum.dart';
 import 'package:grpc/grpc.dart';
 
 class Client {
@@ -17,6 +18,7 @@ class Client {
   Future<void> start() async {
     try {
       await _createShelfDemo();
+      await _getShelfDemo();
     } catch (e) {
       print(e);
     }
@@ -26,6 +28,13 @@ class Client {
   Future<void> _createShelfDemo() async {
     final request = CreateShelfRequest(shelf: Shelf(theme: 'Horror'));
     final response = await this._stub.createShelf(request);
-    print('Created a new bookshelf titled: ${response.theme}');
+    print(
+        'Created a new bookshelf titled: ${response.theme} with id ${response.id}');
+  }
+
+  Future<void> _getShelfDemo() async {
+    final request = GetShelfRequest(shelf: Int64(1));
+    final response = await this._stub.getShelf(request);
+    print('Got shelf: ${response.theme} with id ${response.id}');
   }
 }
