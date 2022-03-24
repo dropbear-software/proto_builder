@@ -28,7 +28,7 @@ Like other build packages you may have used before once this is set up correctly
 dev_dependencies:
   proto_builder:
     git:
-      url: git://github.com/dropbear-software/proto_builder.git
+      url: https://github.com/dropbear-software/proto_builder.git
 ```
 
 **Step 4:** Create a `build.yaml` file if you don't have one already and add the following to it
