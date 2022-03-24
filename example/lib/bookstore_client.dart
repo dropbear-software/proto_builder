@@ -19,6 +19,8 @@ class Client {
     try {
       await _createShelfDemo();
       await _getShelfDemo();
+      // await _deleteShelfDemo();
+      await _listShelvesDemo();
     } catch (e) {
       print(e);
     }
@@ -36,5 +38,18 @@ class Client {
     final request = GetShelfRequest(shelf: Int64(1));
     final response = await this._stub.getShelf(request);
     print('Got shelf: ${response.theme} with id ${response.id}');
+  }
+
+  Future<void> _deleteShelfDemo() async {
+    final request = DeleteShelfRequest(shelf: Int64(1));
+    await this._stub.deleteShelf(request);
+    print('Shelf Deleted');
+  }
+
+  Future<void> _listShelvesDemo() async {
+    final response = await this._stub.listShelves(Empty());
+    print('${response.shelves.length} Shelves returned');
+    print(
+        'The theme of the first response was ${response.shelves.first.theme}');
   }
 }

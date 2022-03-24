@@ -21,9 +21,8 @@ class BookstoreService extends BookstoreServiceBase {
     try {
       final shelfEntity = await _repository.createShelf(request.shelf);
       return Shelf.fromBuffer(shelfEntity.shelf);
-    } catch (e) {
-      // TODO: This isn't actually true right now.
-      throw GrpcError.alreadyExists();
+    } catch (error) {
+      throw error;
     }
   }
 
@@ -34,9 +33,15 @@ class BookstoreService extends BookstoreServiceBase {
   }
 
   @override
-  Future<Empty> deleteShelf(ServiceCall call, DeleteShelfRequest request) {
-    // TODO: implement deleteShelf
-    throw UnimplementedError();
+  Future<Empty> deleteShelf(
+      ServiceCall call, DeleteShelfRequest request) async {
+    try {
+      final shelfId = request.shelf;
+      await _repository.deleteShelf(shelfId.toInt());
+      return Empty();
+    } catch (error) {
+      throw error;
+    }
   }
 
   @override
@@ -48,7 +53,6 @@ class BookstoreService extends BookstoreServiceBase {
   @override
   Future<Shelf> getShelf(ServiceCall call, GetShelfRequest request) {
     final shelfId = request.shelf.toInt();
-    print('Shelf ID = $shelfId');
     try {
       return _repository.getShelf(shelfId);
     } catch (e) {
@@ -64,8 +68,9 @@ class BookstoreService extends BookstoreServiceBase {
   }
 
   @override
-  Future<ListShelvesResponse> listShelves(ServiceCall call, Empty request) {
-    // TODO: implement listShelves
-    throw UnimplementedError();
+  Future<ListShelvesResponse> listShelves(
+      ServiceCall call, Empty request) async {
+    final shelves = await _repository.listShelves();
+    return ListShelvesResponse(shelves: shelves);
   }
 }

@@ -1,6 +1,8 @@
 import 'dart:collection';
+import 'dart:ffi';
 
 import 'package:fixnum/fixnum.dart';
+import 'package:grpc/grpc.dart' show GrpcError;
 
 import '../data/bookstore_repository.dart';
 import '../data/shelf_entity.dart';
@@ -19,7 +21,7 @@ class BookstoreInMemoryRepository implements BookstoreRepository {
   Future<ShelfEntity> createShelf(Shelf shelf) async {
     // Clients should not provide ids
     if (shelf.hasId()) {
-      throw ArgumentError.value(shelf.id, 'shelf', 'Should be blank');
+      throw GrpcError.invalidArgument('shelf id should be null');
     }
     // Generate the next id
     _lastShelfId++;
@@ -30,31 +32,52 @@ class BookstoreInMemoryRepository implements BookstoreRepository {
     // Add the new shelf to the in memory database
     this._shelves.putIfAbsent(_lastShelfId, (() => _ShelfInfo(shelf)));
 
+    // Convert the Shelf to a ShelfEntity using our builder
     final shelfEntity = ShelfEntity((entity) => entity
       ..id = shelf.id
       ..shelf = shelf.writeToBuffer());
+
     // Create a new ShelfEntity and return it
     return Future.value(shelfEntity);
   }
 
   @override
-  void deleteShelf(int shelfId) {
-    // TODO: implement deleteShelf
+  Future<void> deleteShelf(int shelfId) {
+    // Check if we even have this shelf in our database first
+    if (this._shelves.containsKey(shelfId)) {
+      // If so lets remove it
+      _shelves.remove(shelfId);
+      // TODO: This doesn't feel right at all
+      return Future.value(Void);
+    } else {
+      // Otherwise let the client know we couldn't find it
+      throw GrpcError.notFound();
+    }
   }
 
   @override
   Future<Shelf> getShelf(int shelfId) async {
+    // Check if we even have this shelf in our database first
     if (_shelves.containsKey(shelfId)) {
+      // If so return the shelf associated with it
       return Future.value(_shelves[shelfId]!._shelf);
     }
 
-    throw ArgumentError.value(shelfId, 'shelfId', 'No shelf with that ID');
+    // Otherwise let the client know we couldn't find it
+    throw GrpcError.notFound();
   }
 
   @override
-  Iterable<Shelf> listShelves() {
-    // TODO: implement listShelves
-    throw UnimplementedError();
+  Future<Iterable<Shelf>> listShelves() {
+    // Lets create a blank list of shelves
+    final List<Shelf> shelves = [];
+    // Then add all of the shelves we have to it
+    for (var shelfInfo in _shelves.values) {
+      shelves.add(shelfInfo._shelf);
+    }
+
+    // Finally, lets return it
+    return Future.value(shelves);
   }
 }
 
