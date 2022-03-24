@@ -13,4 +13,8 @@ abstract class BookstoreRepository {
   Future<Book> createBook(int shelfId, Book book);
 
   Future<Book> getBook(int shelfId, int bookId);
+
+  Future<Iterable<Book>> listBooks(int shelfId);
+
+  Future<void> deleteBook(int shelfId, int bookId);
 }

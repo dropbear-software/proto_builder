@@ -23,6 +23,8 @@ class Client {
       await _listShelvesDemo();
       await _createBookDemo();
       await _getBookDemo();
+      await _listBooksDemo();
+      // await _deleteBookDemo();
     } catch (e) {
       print(e);
     }
@@ -68,5 +70,24 @@ class Client {
     final response = await this._stub.getBook(request);
 
     print('Got back the book ${response.title} by ${response.author}');
+  }
+
+  Future<void> _listBooksDemo() async {
+    final request = ListBooksRequest(shelf: Int64(1));
+    final response = await this._stub.listBooks(request);
+    print('Got back a list of books');
+
+    for (var book in response.books) {
+      print(
+          'Got back the book ${book.title} by ${book.author} with id ${book.id}');
+    }
+  }
+
+  Future<void> _deleteBookDemo() async {
+    await this
+        ._stub
+        .deleteBook(DeleteBookRequest(book: Int64(1), shelf: Int64(1)));
+
+    print('Book Deleted');
   }
 }

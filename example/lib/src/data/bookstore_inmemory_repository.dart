@@ -1,5 +1,4 @@
 import 'dart:collection';
-import 'dart:ffi';
 
 import 'package:fixnum/fixnum.dart';
 import 'package:grpc/grpc.dart' show GrpcError;
@@ -102,7 +101,7 @@ class BookstoreInMemoryRepository implements BookstoreRepository {
     }
 
     // If we made it here it means we couldn't find the shelf
-    throw GrpcError.unavailable();
+    throw GrpcError.notFound();
   }
 
   @override
@@ -114,12 +113,41 @@ class BookstoreInMemoryRepository implements BookstoreRepository {
         return Future.value(shelf._books[bookId]!);
       } else {
         // If we made it here it means we couldn't find the Book
-        throw GrpcError.unavailable();
+        throw GrpcError.notFound();
       }
     }
 
     // If we made it here it means we couldn't find the shelf
-    throw GrpcError.unavailable();
+    throw GrpcError.notFound();
+  }
+
+  @override
+  Future<Iterable<Book>> listBooks(int shelfId) {
+    if (_shelves.containsKey(shelfId)) {
+      final shelf = _shelves[shelfId]!;
+
+      return Future.value(shelf._books.values);
+    }
+
+    // If we made it here it means we couldn't find the shelf
+    throw GrpcError.notFound();
+  }
+
+  @override
+  Future<void> deleteBook(int shelfId, int bookId) async {
+    if (_shelves.containsKey(shelfId)) {
+      final shelf = _shelves[shelfId]!;
+
+      if (shelf._books.containsKey(bookId)) {
+        shelf._books.remove(bookId);
+        return;
+      } else {
+        throw GrpcError.notFound();
+      }
+    }
+
+    // If we made it here it means we couldn't find the shelf
+    throw GrpcError.notFound();
   }
 }
 

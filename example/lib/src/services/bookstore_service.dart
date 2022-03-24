@@ -26,9 +26,11 @@ class BookstoreService extends BookstoreServiceBase {
   }
 
   @override
-  Future<Empty> deleteBook(ServiceCall call, DeleteBookRequest request) {
-    // TODO: implement deleteBook
-    throw UnimplementedError();
+  Future<Empty> deleteBook(ServiceCall call, DeleteBookRequest request) async {
+    await this
+        ._repository
+        .deleteBook(request.shelf.toInt(), request.book.toInt());
+    return Empty();
   }
 
   @override
@@ -60,9 +62,9 @@ class BookstoreService extends BookstoreServiceBase {
 
   @override
   Future<ListBooksResponse> listBooks(
-      ServiceCall call, ListBooksRequest request) {
-    // TODO: implement listBooks
-    throw UnimplementedError();
+      ServiceCall call, ListBooksRequest request) async {
+    final books = await _repository.listBooks(request.shelf.toInt());
+    return ListBooksResponse(books: books);
   }
 
   @override
