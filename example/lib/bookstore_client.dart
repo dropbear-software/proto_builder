@@ -21,6 +21,7 @@ class Client {
       await _getShelfDemo();
       // await _deleteShelfDemo();
       await _listShelvesDemo();
+      await _createBookDemo();
     } catch (e) {
       print(e);
     }
@@ -51,5 +52,13 @@ class Client {
     print('${response.shelves.length} Shelves returned');
     print(
         'The theme of the first response was ${response.shelves.first.theme}');
+  }
+
+  Future<void> _createBookDemo() async {
+    final book = Book(author: 'Old Mate', title: 'Rip Rip Woodchip');
+    final request = CreateBookRequest(shelf: Int64(1), book: book);
+    final response = await this._stub.createBook(request);
+
+    print('Added the book ${response.title} by ${response.author}');
   }
 }

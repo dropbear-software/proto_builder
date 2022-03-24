@@ -77,6 +77,33 @@ class BookstoreInMemoryRepository implements BookstoreRepository {
     // Finally, lets return it
     return Future.value(shelves);
   }
+
+  @override
+  Future<Book> createBook(int shelfId, Book book) async {
+    if (_shelves.containsKey(shelfId)) {
+      final shelf = _shelves[shelfId]!;
+
+      if (shelf._books.containsKey(book.id)) {
+        // Make sure there isn't already a book with an id if one was specified
+        throw GrpcError.alreadyExists();
+      } else {
+        shelf._lastBookId++;
+
+        // Update the book id to match
+        book.id = Int64(shelf._lastBookId);
+
+        // Place the book into the database
+        Future.sync(
+            () => {shelf._books.putIfAbsent(shelf._lastBookId, () => book)});
+
+        // Finally return the book itself
+        return book;
+      }
+    }
+
+    // If we made it here it means we couldn't find the shelf
+    throw GrpcError.unavailable();
+  }
 }
 
 class _ShelfInfo {

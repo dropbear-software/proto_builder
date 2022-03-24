@@ -11,8 +11,7 @@ class BookstoreService extends BookstoreServiceBase {
 
   @override
   Future<Book> createBook(ServiceCall call, CreateBookRequest request) {
-    // TODO: implement createBook
-    throw UnimplementedError();
+    return _repository.createBook(request.shelf.toInt(), request.book);
   }
 
   @override
