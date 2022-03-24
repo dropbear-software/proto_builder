@@ -83,7 +83,7 @@ class BookstoreInMemoryRepository implements BookstoreRepository {
     if (_shelves.containsKey(shelfId)) {
       final shelf = _shelves[shelfId]!;
 
-      if (shelf._books.containsKey(book.id)) {
+      if (shelf._books.containsKey(book.id.toInt())) {
         // Make sure there isn't already a book with an id if one was specified
         throw GrpcError.alreadyExists();
       } else {
