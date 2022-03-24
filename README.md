@@ -51,7 +51,9 @@ targets:
       - $package$
 ```
 
-**Step 5:** You should now have everything you need to use the builder. Start the process by running `dart run build_runner build` and the compiled Dart classes should appear in your `lib/src/proto` directory.
+**Step 5:** Add the `build_runner` package to your dev_dependencies section of `package.yaml` file by running `dart pub add -d build_runner`
+
+**Step 6:** You should now have everything you need to use the builder. Start the process by running `dart run build_runner build` and the compiled Dart classes should appear in your `lib/src/proto` directory.
 
 
 ## Usage
