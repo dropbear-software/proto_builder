@@ -22,6 +22,7 @@ class Client {
       // await _deleteShelfDemo();
       await _listShelvesDemo();
       await _createBookDemo();
+      await _getBookDemo();
     } catch (e) {
       print(e);
     }
@@ -60,5 +61,12 @@ class Client {
     final response = await this._stub.createBook(request);
 
     print('Added the book ${response.title} by ${response.author}');
+  }
+
+  Future<void> _getBookDemo() async {
+    final request = GetBookRequest(shelf: Int64(1), book: Int64(1));
+    final response = await this._stub.getBook(request);
+
+    print('Got back the book ${response.title} by ${response.author}');
   }
 }

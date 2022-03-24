@@ -104,6 +104,23 @@ class BookstoreInMemoryRepository implements BookstoreRepository {
     // If we made it here it means we couldn't find the shelf
     throw GrpcError.unavailable();
   }
+
+  @override
+  Future<Book> getBook(int shelfId, int bookId) {
+    if (_shelves.containsKey(shelfId)) {
+      final shelf = _shelves[shelfId]!;
+
+      if (shelf._books.containsKey(bookId)) {
+        return Future.value(shelf._books[bookId]!);
+      } else {
+        // If we made it here it means we couldn't find the Book
+        throw GrpcError.unavailable();
+      }
+    }
+
+    // If we made it here it means we couldn't find the shelf
+    throw GrpcError.unavailable();
+  }
 }
 
 class _ShelfInfo {
