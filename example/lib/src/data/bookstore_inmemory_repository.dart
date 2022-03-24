@@ -42,13 +42,11 @@ class BookstoreInMemoryRepository implements BookstoreRepository {
   }
 
   @override
-  Future<void> deleteShelf(int shelfId) {
+  Future<void> deleteShelf(int shelfId) async {
     // Check if we even have this shelf in our database first
     if (this._shelves.containsKey(shelfId)) {
       // If so lets remove it
-      _shelves.remove(shelfId);
-      // TODO: This doesn't feel right at all
-      return Future.value(Void);
+      Future.sync(() => _shelves.remove(shelfId));
     } else {
       // Otherwise let the client know we couldn't find it
       throw GrpcError.notFound();
